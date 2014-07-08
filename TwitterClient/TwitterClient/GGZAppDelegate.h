@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GGZLoginViewController.h"
 
 @interface GGZAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) GGZLoginViewController *loginVC;
+@property (nonatomic, strong) UINavigationController *timelineNVC;
+@property (nonatomic, strong) UIViewController *currentVC;
 
 @end

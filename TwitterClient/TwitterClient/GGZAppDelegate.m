@@ -7,6 +7,12 @@
 //
 
 #import "GGZAppDelegate.h"
+#import "GGZLoginViewController.h"
+#import "GGZTimelineViewController.h"
+
+#import "NSURL+dictionaryFromQueryString.h"
+#import "TwitterClient.h"
+#import "User.h"
 
 @implementation GGZAppDelegate
 
@@ -14,6 +20,9 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    
+    self.window.rootViewController = self.currentVC;
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
@@ -44,6 +53,72 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    if ([url.scheme isEqualToString:@"cptwitter"])
+    {
+        if ([url.host isEqualToString:@"oauth"])
+        {
+            NSDictionary *parameters = [url dictionaryFromQueryString];
+            if (parameters[@"oauth_token"] && parameters[@"oauth_verifier"]) {
+                TwitterClient *client = [TwitterClient instance];
+//                [client.requestSerializer removeAccessToken];
+                [client fetchAccessTokenWithPath:@"/oauth/access_token" method:@"POST" requestToken:[BDBOAuthToken tokenWithQueryString:url.query] success:^(BDBOAuthToken *accessToken) {
+                    NSLog(@"Successfully fetched access token: %@", accessToken.token);
+                    [client.requestSerializer saveAccessToken:accessToken];
+                    
+                    // save access token
+                    [client saveAccessToken:accessToken];
+                    [self updateRootVC];
+                    NSLog(@"after saving access token and update root vc");
+                    
+                }failure:^(NSError *error) {
+                    NSLog(@"Failed to fetch access token: %@", error);
+                    
+                }];
+            }
+        }
+        return YES;
+    }
+    return NO;
+}
+
+- (UIViewController *)currentVC {
+    BDBOAuthToken *accessToken = [[TwitterClient instance] getAccessToken];
+    
+    if (accessToken) {
+        NSLog(@"found existing access token");
+        return self.timelineNVC;
+    } else {
+        NSLog(@"cound not find existing access token, login first");
+        return self.loginVC;
+    }
+}
+
+- (UINavigationController *)timelineNVC {
+    if (!_timelineNVC) {
+        GGZTimelineViewController *timelineVC = [[GGZTimelineViewController alloc] init];
+        _timelineNVC = [[UINavigationController alloc] initWithRootViewController:timelineVC];
+    }
+    
+    return _timelineNVC;
+}
+
+- (GGZLoginViewController *)loginVC {
+    if (!_loginVC) {
+        _loginVC = [[GGZLoginViewController alloc] init];
+    }
+    
+    return _loginVC;
+}
+
+- (void)updateRootVC {
+    self.window.rootViewController = self.currentVC;
 }
 
 @end
