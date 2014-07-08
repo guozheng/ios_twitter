@@ -22,20 +22,20 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6FG-hT-sh4">
-                        <rect key="frame" x="55" y="25" width="88" height="14"/>
+                        <rect key="frame" x="55" y="25" width="104" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14" id="Hwb-XP-lkL"/>
-                            <constraint firstAttribute="width" constant="88" id="Tei-Ow-7Jj"/>
+                            <constraint firstAttribute="width" constant="104" id="YNJ-Tf-hZ8"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Screen Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MdT-93-Mut">
-                        <rect key="frame" x="151" y="25" width="95" height="18"/>
+                        <rect key="frame" x="167" y="25" width="81" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="95" id="KBt-bR-j17"/>
+                            <constraint firstAttribute="width" constant="81" id="mrD-al-e74"/>
                             <constraint firstAttribute="height" constant="18" id="zed-5M-GIB"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -43,10 +43,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Age" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mUn-sv-dlS">
-                        <rect key="frame" x="265" y="25" width="42" height="21"/>
+                        <rect key="frame" x="273" y="25" width="34" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="42" id="9IR-1B-HdV"/>
+                            <constraint firstAttribute="width" constant="34" id="MVo-0J-LdB"/>
                             <constraint firstAttribute="height" constant="21" id="bIo-Qg-fDe"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -96,7 +96,6 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="MdT-93-Mut" firstAttribute="leading" secondItem="6FG-hT-sh4" secondAttribute="trailing" constant="8" id="8o9-Gu-oO4"/>
                     <constraint firstAttribute="bottom" secondItem="IUL-wF-dHW" secondAttribute="bottom" constant="4" id="DWJ-Ut-oRz"/>
                     <constraint firstItem="IUL-wF-dHW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="55" id="E1A-nc-adf"/>
                     <constraint firstAttribute="bottom" secondItem="0ek-jX-juP" secondAttribute="bottom" constant="4" id="HQb-eg-dwf"/>
@@ -105,6 +104,7 @@
                     <constraint firstItem="mUn-sv-dlS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="Reh-pc-6Xj"/>
                     <constraint firstItem="Utx-Hm-7qH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="SnC-md-jxA"/>
                     <constraint firstItem="6FG-hT-sh4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="VSJ-zr-Gw8"/>
+                    <constraint firstItem="MdT-93-Mut" firstAttribute="leading" secondItem="6FG-hT-sh4" secondAttribute="trailing" constant="8" id="bQm-qC-0Zi"/>
                     <constraint firstItem="0ek-jX-juP" firstAttribute="leading" secondItem="IUL-wF-dHW" secondAttribute="trailing" constant="45" id="dQG-Y4-Q78"/>
                     <constraint firstItem="6FG-hT-sh4" firstAttribute="leading" secondItem="Utx-Hm-7qH" secondAttribute="trailing" constant="8" id="mig-Qb-XVK"/>
                     <constraint firstItem="IgD-MC-EkU" firstAttribute="leading" secondItem="0ek-jX-juP" secondAttribute="trailing" constant="45" id="oRV-hf-pNB"/>

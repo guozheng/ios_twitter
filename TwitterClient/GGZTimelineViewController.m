@@ -9,9 +9,10 @@
 #import "GGZTimelineViewController.h"
 #import "GGZLoginViewController.h"
 #import "GGZAppDelegate.h"
+#import "GGZTweetCellTableViewCell.h"
+#import "GGZTweetViewController.h"
 #import "TwitterClient.h"
 #import "TwitterDateUtil.h"
-#import "GGZTweetCellTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
 
 @interface GGZTimelineViewController ()
@@ -19,7 +20,7 @@
 @property (nonatomic, strong)TwitterClient *client;
 
 @property (nonatomic, strong) NSMutableArray *tweets;
-@property (nonatomic, strong) NSDictionary *retweet;
+@property (nonatomic, strong) NSMutableArray *retweetUsernames;
 
 - (void)reload;
 - (void)onSignout;
@@ -48,7 +49,14 @@
     
     self.TimelineView.delegate = self;
     self.TimelineView.dataSource = self;
-    self.TimelineView.rowHeight = 100;
+    self.TimelineView.rowHeight = 95;
+    
+    // set background color for nav bar
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.46 green:0.71 blue:0.91 alpha:1.0]];
+    [self.navigationController.navigationBar setTranslucent:NO];
+    
+    // set text color for nav bar
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
     // sign out button
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(onSignout)];
@@ -89,9 +97,39 @@
 {
     NSLog(@"reload tweets");
 
-    [self.client homeTimelineWithCount:20 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"response: %@", responseObject);
+    int tweetCount = 20;
+    [self.client homeTimelineWithCount:tweetCount success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"home timeline response: %@", responseObject);
+        // load tweets
         self.tweets = responseObject;
+        
+        // load usernames for the last retweet, nil if no retweet
+//        self.retweetUsernames = [[NSMutableArray alloc] initWithCapacity:tweetCount];
+//        NSLog(@"######### retweetUsernames count: %i, %i", self.retweetUsernames.count, tweetCount);
+//        int i = 0;
+//        for (NSDictionary *tweet in responseObject) {
+//            NSLog(@"getting the latest retweet for tweet id: %@, retweet_count: %@, #%i", tweet[@"id"], tweet[@"retweet_count"], i);
+//            if ([tweet[@"retweet_count"] intValue] > 0) {
+//                NSLog(@"===== has retweets");
+//                [self.client latestRetweetForId:tweet[@"id"] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//                    NSLog(@"retweet response: %@", responseObject);
+//                    NSDictionary *retweet = [responseObject objectAtIndex:0];
+//                    [self.retweetUsernames addObject:retweet[@"retweeted_status"][@"user"][@"name"]];
+//                    NSLog(@"found retweets, the last retweet by %@", retweet[@"retweeted_status"][@"user"][@"name"]);
+//                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//                    NSLog(@"response error: %@", error);
+//                    
+//                }];
+//                NSLog(@"===== retweet request done");
+//            } else {
+//                [self.retweetUsernames addObject:nil];
+//                NSLog(@"did not find retweet");
+//            }
+//            i++;
+//        }
+//        NSLog(@"==============tweets array size: %i", self.tweets.count);
+//        NSLog(@"==============retweet usernames array size: %i", self.retweetUsernames.count);
+        
         [self.TimelineView reloadData];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -120,7 +158,7 @@
         cell = [[GGZTweetCellTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GGZTweetCellTableViewCell"];
     }
     
-    NSDictionary *tweet = [self.tweets objectAtIndex:indexPath.row];
+    NSDictionary *tweet = self.tweets[indexPath.row];
     NSDictionary *user = tweet[@"user"];
     
     // tweet icon
@@ -150,24 +188,25 @@
     cell.age.text = [TwitterDateUtil tweetAgeFromDateStr:tweet[@"created_at"]];
     
     // show last retweet user
-    if ([tweet[@"retweet_count"] intValue] > 0) {
-        NSLog(@"getting the latest retweet for tweet id: %@", tweet[@"id"]);
-        [self.client latestRetweetForId:tweet[@"id"] success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"response: %@", responseObject);
-            self.retweet = [responseObject objectAtIndex:0];
-            cell.retweetBy.text = [NSString stringWithFormat:@"%@ retweeted", self.retweet[@"retweeted_status"][@"user"][@"name"]];
+//    NSLog(@"+++++++ retweet usernames: %@", self.retweetUsernames);
+    if (self.retweetUsernames.count > 0) {
+        NSString *retweetUsername = [self.retweetUsernames objectAtIndex:indexPath.row];
+        if (retweetUsername) {
+            cell.retweetBy.text = [NSString stringWithFormat:@"%@ retweeted", retweetUsername];
             cell.retweetBy.hidden = NO;
             cell.retweetByImage.hidden = NO;
-            
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"response error: %@", error);
-            
-        }];
+        }
     }
     
     return cell;
     
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    GGZTweetViewController *tweetVC = [[GGZTweetViewController alloc] init];
+    tweetVC.tweet = self.tweets[indexPath.row];
+    [self.navigationController pushViewController:tweetVC animated:YES];
+}
 
 @end

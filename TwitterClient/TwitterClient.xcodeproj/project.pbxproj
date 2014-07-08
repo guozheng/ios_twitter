@@ -20,6 +20,8 @@
 		3FAABF75196B621200E22A33 /* RestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAABF74196B621200E22A33 /* RestObject.m */; };
 		3FAABF79196B871200E22A33 /* GGZTweetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAABF77196B871200E22A33 /* GGZTweetViewController.m */; };
 		3FAABF7A196B871200E22A33 /* GGZTweetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FAABF78196B871200E22A33 /* GGZTweetViewController.xib */; };
+		3FAABF7E196C9FEF00E22A33 /* GGZComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAABF7C196C9FEF00E22A33 /* GGZComposeViewController.m */; };
+		3FAABF7F196C9FEF00E22A33 /* GGZComposeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FAABF7D196C9FEF00E22A33 /* GGZComposeViewController.xib */; };
 		3FBB5F3419662EA40068CD2A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FBB5F3319662EA40068CD2A /* Foundation.framework */; };
 		3FBB5F3619662EA40068CD2A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FBB5F3519662EA40068CD2A /* CoreGraphics.framework */; };
 		3FBB5F3819662EA40068CD2A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FBB5F3719662EA40068CD2A /* UIKit.framework */; };
@@ -69,6 +71,9 @@
 		3FAABF76196B871200E22A33 /* GGZTweetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GGZTweetViewController.h; sourceTree = "<group>"; };
 		3FAABF77196B871200E22A33 /* GGZTweetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGZTweetViewController.m; sourceTree = "<group>"; };
 		3FAABF78196B871200E22A33 /* GGZTweetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GGZTweetViewController.xib; sourceTree = "<group>"; };
+		3FAABF7B196C9FEF00E22A33 /* GGZComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GGZComposeViewController.h; sourceTree = "<group>"; };
+		3FAABF7C196C9FEF00E22A33 /* GGZComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGZComposeViewController.m; sourceTree = "<group>"; };
+		3FAABF7D196C9FEF00E22A33 /* GGZComposeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GGZComposeViewController.xib; sourceTree = "<group>"; };
 		3FBB5F3019662EA40068CD2A /* TwitterClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FBB5F3319662EA40068CD2A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3FBB5F3519662EA40068CD2A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -136,6 +141,9 @@
 				3FAABF76196B871200E22A33 /* GGZTweetViewController.h */,
 				3FAABF77196B871200E22A33 /* GGZTweetViewController.m */,
 				3FAABF78196B871200E22A33 /* GGZTweetViewController.xib */,
+				3FAABF7B196C9FEF00E22A33 /* GGZComposeViewController.h */,
+				3FAABF7C196C9FEF00E22A33 /* GGZComposeViewController.m */,
+				3FAABF7D196C9FEF00E22A33 /* GGZComposeViewController.xib */,
 			);
 			name = ViewControllers;
 			path = ..;
@@ -319,6 +327,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FAABF7F196C9FEF00E22A33 /* GGZComposeViewController.xib in Resources */,
 				3F6AA84F196A87E200422C5F /* GGZTimelineViewController.xib in Resources */,
 				3F6AA843196A168A00422C5F /* GGZLoginViewController.xib in Resources */,
 				3F6AA854196A882C00422C5F /* GGZTweetCellTableViewCell.xib in Resources */,
@@ -386,6 +395,7 @@
 				3F6AA846196A3BEA00422C5F /* NSURL+dictionaryFromQueryString.m in Sources */,
 				3FAABF72196B3C4C00E22A33 /* TwitterDateUtil.m in Sources */,
 				3FBB5F4419662EA40068CD2A /* GGZAppDelegate.m in Sources */,
+				3FAABF7E196C9FEF00E22A33 /* GGZComposeViewController.m in Sources */,
 				3F6AA842196A168A00422C5F /* GGZLoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
