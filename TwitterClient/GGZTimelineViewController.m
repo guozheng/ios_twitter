@@ -11,14 +11,14 @@
 #import "GGZAppDelegate.h"
 #import "GGZTweetCellTableViewCell.h"
 #import "GGZTweetViewController.h"
+#import "GGZComposeViewController.h"
 #import "TwitterClient.h"
 #import "TwitterDateUtil.h"
 #import "UIImageView+AFNetworking.h"
 
 @interface GGZTimelineViewController ()
 
-@property (nonatomic, strong)TwitterClient *client;
-
+@property (nonatomic, strong) TwitterClient *client;
 @property (nonatomic, strong) NSMutableArray *tweets;
 @property (nonatomic, strong) NSMutableArray *retweetUsernames;
 
@@ -80,8 +80,8 @@
 
 - (void)onSignout
 {
-    NSLog(@"user signing out");
-    [self.client removeAccessToken];
+    NSLog(@"user logging out");
+    [self.client logout];
     
     GGZLoginViewController *loginVC = [[GGZLoginViewController alloc] initWithNibName:@"GGZLoginViewController" bundle:nil];
     GGZAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -91,6 +91,9 @@
 - (void)onNewTweet
 {
     NSLog(@"create a new tweet");
+    
+    GGZComposeViewController *composeVC = [[GGZComposeViewController alloc] initWithNibName:@"GGZComposeViewController" bundle:nil];
+    [self.navigationController pushViewController:composeVC animated:YES];
 }
 
 - (void)reload

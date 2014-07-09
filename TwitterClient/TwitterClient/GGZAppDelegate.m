@@ -69,22 +69,37 @@
                 TwitterClient *client = [TwitterClient instance];
 //                [client.requestSerializer removeAccessToken];
                 [client fetchAccessTokenWithPath:@"/oauth/access_token" method:@"POST" requestToken:[BDBOAuthToken tokenWithQueryString:url.query] success:^(BDBOAuthToken *accessToken) {
-                    NSLog(@"Successfully fetched access token: %@", accessToken.token);
+                    NSLog(@"successfully fetched access token: %@", accessToken.token);
                     [client.requestSerializer saveAccessToken:accessToken];
                     
                     // save access token
                     [client saveAccessToken:accessToken];
-                    [self updateRootVC];
-                    NSLog(@"after saving access token and update root vc");
+                    NSLog(@"successfully saved access token");
+                    
+                    // save user info
+                    [client currentUserWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                        NSLog(@"successfully got current user info: %@", responseObject);
+                        [client saveUser:responseObject];
+                        NSLog(@"successfully saved current user");
+                        
+                        // update root view controller based on whether or not the access token is saved
+                        [self updateRootVC];
+                        NSLog(@"successfully updated root vc");
+                        
+                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                        NSLog(@"failed to fetch and save current user");
+                    }];
                     
                 }failure:^(NSError *error) {
-                    NSLog(@"Failed to fetch access token: %@", error);
+                    NSLog(@"failed to fetch access token: %@", error);
                     
                 }];
             }
         }
+        
         return YES;
     }
+    
     return NO;
 }
 

@@ -32,7 +32,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    NSLog(@"in viewDidLoad");
+    NSLog(@"in TweetVC viewDidLoad");
     
     // set background color for nav bar
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.46 green:0.71 blue:0.91 alpha:1.0]];
@@ -46,7 +46,7 @@
     
     NSDictionary *user = self.tweet[@"user"];
     
-    // tweet icon
+    // tweet user icon
     NSURL *imageURL = [NSURL URLWithString:user[@"profile_image_url"]];
     UIImage *placeholderImage = [UIImage imageNamed:@"Placeholder"];
     self.icon.layer.cornerRadius = 10.0;
@@ -78,7 +78,7 @@
     // favorite count
     self.favoriateCount.text = [NSString stringWithFormat:@"%@", self.tweet[@"favorite_count"]];
     
-    NSLog(@"done with viewDidLoad");
+    NSLog(@"done with TweetVC viewDidLoad");
 }
 
 - (void)didReceiveMemoryWarning

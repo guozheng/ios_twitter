@@ -19,10 +19,42 @@
 
 - (BDBOAuthToken *)getAccessToken;
 
+- (void)saveUser:(NSDictionary *)currentUser;
+
+- (void)removeUser;
+
+- (NSDictionary *)getCurrentUser;
+
+- (void)logout;
+
 - (void)login;
 
-- (AFHTTPRequestOperation *)homeTimelineWithCount:(int)count success:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
+- (AFHTTPRequestOperation *)homeTimelineWithCount:(int)count
+                                          success:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success
+                                          failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
 
-- (AFHTTPRequestOperation *)latestRetweetForId:(NSString *)tweetId success:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
+- (AFHTTPRequestOperation *)latestRetweetForId:(NSString *)tweetId
+                                       success:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success
+                                       failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
+
+- (AFHTTPRequestOperation *)currentUserWithSuccess:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success
+                                           failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
+
+- (AFHTTPRequestOperation *)updateWithStatus:(NSString *)status
+                                     success:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success
+                                     failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
+
+- (AFHTTPRequestOperation *)replyWithStatus:(NSString *)status
+                                   statusId:(NSString *)statusId
+                                    success:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success
+                                    failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
+
+- (AFHTTPRequestOperation *)retweetWithStatusId:(NSString *)statusId
+                                        success:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success
+                                        failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
+
+- (AFHTTPRequestOperation *)favoriteWithStatusId:(NSString *)statusId
+                                         success:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success
+                                         failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure;
 
 @end

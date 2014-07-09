@@ -7,6 +7,7 @@
 //
 
 #import "TwitterClient.h"
+#import "User.h"
 
 #define BASE_URL [NSURL URLWithString:@"https://api.twitter.com/"]
 #define CONSUMER_KEY @"Unawe1A1ohIbmBLpmvHNAu1RG"
@@ -15,6 +16,7 @@
 @implementation TwitterClient
 
 static NSString * const kAccessTokenKey = @"kAccessTokenKey";
+static NSString * const kCurrentUserKey = @"kCurrentUserKey";
 
 // get a singleton Twitter client
 + (TwitterClient *)instance
@@ -57,6 +59,35 @@ static NSString * const kAccessTokenKey = @"kAccessTokenKey";
     return accessToken;
 }
 
+- (void)saveUser:(NSDictionary *)currentUser
+{
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:currentUser];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCurrentUserKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)removeUser
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kCurrentUserKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSDictionary *)getCurrentUser
+{
+    NSDictionary *currentUser = nil;
+    NSData *data = [[NSUserDefaults standardUserDefaults] dataForKey:kCurrentUserKey];
+    if (data) {
+        currentUser = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    }
+    return currentUser;
+}
+
+- (void)logout
+{
+    [self deauthorize];
+    [self removeAccessToken];
+}
+
 - (void)login
 {
     [self fetchRequestTokenWithPath:@"oauth/request_token"
@@ -76,6 +107,8 @@ static NSString * const kAccessTokenKey = @"kAccessTokenKey";
         }];
 }
 
+#pragma mark Twitter API requests
+
 - (AFHTTPRequestOperation *)homeTimelineWithCount:(int)count
                                           success:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success
                                           failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure
@@ -84,6 +117,7 @@ static NSString * const kAccessTokenKey = @"kAccessTokenKey";
     return [self GET:url parameters:nil success:success failure:failure];
 }
 
+
 - (AFHTTPRequestOperation *)latestRetweetForId:(NSString *)tweetId
                                           success:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success
                                           failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure
@@ -91,4 +125,53 @@ static NSString * const kAccessTokenKey = @"kAccessTokenKey";
     NSString *url = [NSString stringWithFormat:@"1.1/statues/retweets/%@.json?count=1", tweetId];
     return [self GET:url parameters:nil success:success failure:failure];
 }
+
+
+- (AFHTTPRequestOperation *)currentUserWithSuccess:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success
+                                           failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSString *url = @"1.1/account/verify_credentials.json";
+    return [self GET:url parameters:nil success:success failure:failure];
+}
+
+
+- (AFHTTPRequestOperation *)updateWithStatus:(NSString *)status
+                                     success:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success
+                                     failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSDictionary *parameters = @{@"status":status};
+    NSString *url = @"1.1/statuses/update.json";
+    return [self POST:url parameters:parameters success:success failure:failure];
+}
+
+
+- (AFHTTPRequestOperation *)replyWithStatus:(NSString *)status
+                                   statusId:(NSString *)statusId
+                                     success:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success
+                                     failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSDictionary *parameters = @{@"status":status, @"in_reply_to_status_id":statusId};
+    NSString *url = @"1.1/statuses/update.json";
+    return [self POST:url parameters:parameters success:success failure:failure];
+}
+
+
+- (AFHTTPRequestOperation *)retweetWithStatusId:(NSString *)statusId
+                                    success:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success
+                                    failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSString *url = [NSString stringWithFormat:@"1.1/statuses/retweet/%@.json", statusId];
+    return [self POST:url parameters:nil success:success failure:failure];
+}
+
+
+- (AFHTTPRequestOperation *)favoriteWithStatusId:(NSString *)statusId
+                                        success:(void (^) (AFHTTPRequestOperation *operation, id responseObject))success
+                                        failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure
+{
+    NSDictionary *parameters = @{@"id": statusId};
+    NSString *url = @"1.1/favorites/create.json";
+    return [self POST:url parameters:parameters success:success failure:failure];
+}
+
 @end

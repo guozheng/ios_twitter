@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
 
 @interface GGZComposeViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIImageView *icon;
