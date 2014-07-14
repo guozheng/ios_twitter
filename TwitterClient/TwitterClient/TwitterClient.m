@@ -151,6 +151,7 @@ static NSString * const kCurrentUserKey = @"kCurrentUserKey";
                                      failure:(void (^) (AFHTTPRequestOperation *operation, NSError *error))failure
 {
     NSDictionary *parameters = @{@"status":status, @"in_reply_to_status_id":statusId};
+    NSLog(@"tweet reply params: %@", parameters);
     NSString *url = @"1.1/statuses/update.json";
     return [self POST:url parameters:parameters success:success failure:failure];
 }

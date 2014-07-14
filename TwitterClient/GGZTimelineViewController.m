@@ -102,7 +102,7 @@
 
     int tweetCount = 20;
     [self.client homeTimelineWithCount:tweetCount success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"home timeline response: %@", responseObject);
+//        NSLog(@"home timeline response: %@", responseObject);
         // load tweets
         self.tweets = responseObject;
         
@@ -164,6 +164,9 @@
     NSDictionary *tweet = self.tweets[indexPath.row];
     NSDictionary *user = tweet[@"user"];
     
+    cell.tweet = tweet;
+    cell.navigationController = self.navigationController;
+    
     // tweet icon
     NSURL *imageURL = [NSURL URLWithString:user[@"profile_image_url"]];
     UIImage *placeholderImage = [UIImage imageNamed:@"Placeholder"];
@@ -173,10 +176,20 @@
     cell.icon.layer.masksToBounds = YES;
     [cell.icon setImageWithURL:imageURL placeholderImage:placeholderImage];
     
-    // small icons
-    [cell.replyImage setImage:[UIImage imageNamed:@"Reply"]];
-    [cell.retweetImage setImage:[UIImage imageNamed:@"Retweet"]];
-    [cell.favImage setImage:[UIImage imageNamed:@"Fav"]];
+    // buttons
+    [cell.replyButton setImage:[UIImage imageNamed:@"Reply"] forState:UIControlStateNormal];
+    cell.replyButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    cell.replyButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+    
+    NSString *retweetImageName = ([tweet[@"retweeted"] boolValue]) ? @"RetweetOn" : @"Retweet";
+    [cell.retweetButton setImage:[UIImage imageNamed:retweetImageName] forState:UIControlStateNormal];
+    cell.retweetButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    cell.retweetButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+    
+    NSString *favImageName = ([tweet[@"favorited"] boolValue]) ? @"FavOn" : @"Fav";
+    [cell.favButton setImage:[UIImage imageNamed:favImageName] forState:UIControlStateNormal];
+    cell.favButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+    cell.favButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
     
     // name
     cell.name.text = user[@"name"];

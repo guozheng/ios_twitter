@@ -44,7 +44,15 @@
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
     // tweet button
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Tweet" style:UIBarButtonItemStylePlain target:self action:@selector(onTweet)];
+    if (self.tweet) {
+        // reply to an existing tweet button
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reply" style:UIBarButtonItemStylePlain target:self action:@selector(onReply)];
+        self.text.text = [NSString stringWithFormat:@"@%@", self.tweet[@"user"][@"name"]];
+        NSLog(@"the original tweet to reply: %@", self.tweet);
+    } else {
+        // new tweet button
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Tweet" style:UIBarButtonItemStylePlain target:self action:@selector(onTweet)];
+    }
     
     // user icon
     NSURL *imageURL = [NSURL URLWithString:self.user[@"profile_image_url"]];
@@ -75,8 +83,19 @@
     NSLog(@"creating a new tweet...");
     [self.client updateWithStatus:self.text.text success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"successfully created a new tweet: %@", self.text.text);
+        [self.navigationController popViewControllerAnimated:YES];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"failed to create a new tweet");
+        NSLog(@"failed to create a new tweet: %@", error);
+    }];
+}
+
+- (void)onReply
+{
+    NSLog(@"replying to an existing tweet...");
+    [self.client replyWithStatus:self.text.text statusId:self.tweet[@"id"] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"failed to reply the tweet: %@", error);
     }];
 }
 

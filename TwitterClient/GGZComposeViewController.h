@@ -15,4 +15,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *screenname;
 @property (weak, nonatomic) IBOutlet UITextField *text;
 
+@property (nonatomic, strong) NSDictionary *tweet;
+
 @end

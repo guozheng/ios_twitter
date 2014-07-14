@@ -14,10 +14,20 @@
 @property (weak, nonatomic) IBOutlet UILabel *screenname;
 @property (weak, nonatomic) IBOutlet UILabel *age;
 @property (weak, nonatomic) IBOutlet UILabel *text;
-@property (weak, nonatomic) IBOutlet UIImageView *replyImage;
-@property (weak, nonatomic) IBOutlet UIImageView *retweetImage;
-@property (weak, nonatomic) IBOutlet UIImageView *favImage;
+
+
+@property (weak, nonatomic) IBOutlet UIButton *replyButton;
+@property (weak, nonatomic) IBOutlet UIButton *retweetButton;
+@property (weak, nonatomic) IBOutlet UIButton *favButton;
+
+- (IBAction)onReply:(id)sender;
+- (IBAction)onRetweet:(id)sender;
+- (IBAction)onFav:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UIImageView *retweetByImage;
 @property (weak, nonatomic) IBOutlet UILabel *retweetBy;
+
+@property (nonatomic, strong) NSDictionary *tweet;
+@property (nonatomic, weak) UINavigationController *navigationController;
 
 @end
